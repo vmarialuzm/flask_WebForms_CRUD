@@ -1,7 +1,8 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,flash,redirect,url_for
+from admin.loginForm import LoginForm
 
 app=Flask(__name__)
-app.secret_keys='llavesecreta'
+app.secret_key='llavesecreta'
 
 @app.route('/')
 def index():
@@ -25,6 +26,20 @@ def index_usuario():
 @app.route('/usuario/add')
 def add_usuario():
     return render_template("/usuario/add.html")
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    form=LoginForm() #instanciando un objeto
+    if form.validate_on_submit():
+        flash('Inicio de sesión solicitada por {}, ¿Recordar?={}'.format(
+            form.username.data,form.remember_me.data))
+        return redirect(url_for('index_css'))
+    
+    return render_template('login.html',form=form)
+
+@app.route('/css')
+def index_css():
+    return render_template('indexCss.html')
 
 if __name__ == '__main__':
     app.run(port=3000,debug=True)

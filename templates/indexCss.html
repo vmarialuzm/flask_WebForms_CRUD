@@ -1,0 +1,11 @@
+<div>
+    Página principal <br>
+    <a href="{{url_for('login')}}">Login</a>
+</div>
+{% with messages = get_flashed_messages() %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+{% endwith %}
