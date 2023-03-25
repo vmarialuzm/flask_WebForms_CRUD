@@ -1,8 +1,14 @@
 from flask import Flask,render_template,flash,redirect,url_for
+from config import Config
 from admin.loginForm import LoginForm
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app=Flask(__name__)
-app.secret_key='llavesecreta'
+app.config.from_object(Config)
+
+db=SQLAlchemy(app)
+migrate=Migrate(app,db)
 
 @app.route('/')
 def index():
